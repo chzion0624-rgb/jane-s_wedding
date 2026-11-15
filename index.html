@@ -457,8 +457,9 @@ stack.addEventListener('pointercancel',()=>{ sx=null; });
     s.onload=()=>kakao.maps.load(()=>{ const geo=new kakao.maps.services.Geocoder(); geo.addressSearch(VENUE.addr,(r,st)=>{ if(st!==kakao.maps.services.Status.OK) return; const p=new kakao.maps.LatLng(r[0].y,r[0].x); const m=new kakao.maps.Map(box,{center:p,level:3}); new kakao.maps.Marker({map:m,position:p}); m.addControl(new kakao.maps.ZoomControl(),kakao.maps.ControlPosition.RIGHT); }); });
     document.head.appendChild(s); return;
   }
-  if(sandboxed) return ph('실시간 네이버 지도는 도메인 연결 후 표시돼요<br>아래 지도 앱 버튼으로 바로 열 수 있어요');
-  box.innerHTML=`<iframe loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(VENUE.addr+' '+VENUE.name)}&z=16&output=embed" title="경기교총웨딩하우스 지도"></iframe>`;
+  // 네이버 지도 키가 없을 때: 구글 지도 대신 누르면 네이버 지도로 열리는 안내 카드
+  ph('경기도 수원시 팔달구 팔달산로 89-13<br><span style="display:inline-block;margin-top:6px;padding:6px 12px;border-radius:14px;background:#03C75A;color:#fff;font-weight:600">네이버 지도에서 보기</span>');
+  box.style.cursor='pointer'; box.addEventListener('click',()=>{ const b=document.querySelector('[data-app="naver"]'); if(b) b.click(); });
 })();
 
 /* ---------- map apps ---------- */
