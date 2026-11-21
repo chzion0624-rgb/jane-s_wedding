@@ -351,7 +351,10 @@ $('#rsvpToday').addEventListener('click',e=>{ e.currentTarget.classList.add('on'
 const app=$('#app'), cover=$('#cover');
 /* ---------- cover (390×844 디자인을 화면에 꽉 차게 + 눈 내리는 모션) ---------- */
 const coverBox=$('#coverBox');
-function fitCover(){ const s=Math.max(innerWidth/390, innerHeight/844); coverBox.style.transform=`translate(-50%,-50%) scale(${s})`; }
+/* 휴대폰(세로 화면): 화면을 꽉 채움 / PC·태블릿처럼 넓은 화면: 메인과 같은 폭(최대 520px)에서 원래 비율 그대로, 잘리지 않게 가운데 */
+function fitCover(){ const w=innerWidth, h=innerHeight; const wide = w>520 || w/h>0.7;
+  const s = wide ? Math.min(Math.min(w,520)/390, h/844) : Math.max(w/390, h/844);
+  coverBox.style.transform=`translate(-50%,-50%) scale(${s})`; }
 fitCover(); addEventListener('resize',fitCover);
 (function(){ const box=$('#coverSnow'); const anims=[];
   FLAKES.forEach(f=>{ const el=document.createElement('i'); el.style.cssText=`left:${f.x}px;top:${f.y}px;width:${f.w}px;height:${f.h}px`; el.innerHTML=FLAKE_SVGS[f.s]; box.appendChild(el);
